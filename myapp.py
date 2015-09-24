@@ -41,5 +41,6 @@ class BeerSelection(object):
 
         return self.generateHtml()
 
+
 if __name__ == '__main__':
     cherrypy.quickstart(BeerSelection())

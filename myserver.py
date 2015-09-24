@@ -4,6 +4,7 @@ import urllib2
 import json
 import random
 import sys
+import string
 
 
 BASE_URL = 'http://lcboapi.com'
@@ -24,7 +25,11 @@ class BeerSnob():
 		self.availableBeers = []
 		self.selectedBeers = []
 
+		# for performance reasons, save results to file
+		# and re-use for each successive invocation
 		self.loadFromFile(filename)
+
+		# populate array with all beers
 		self.populateAvailableBeers()
 
 
@@ -58,6 +63,7 @@ class BeerSnob():
 	def getBeerProductIds(self):
 		MAX_PER_PAGE = 100
 
+		# get all products from store
 		url = self.baseUrl + '/products?store_id=' + str(self.storeId) + '&per_page=' + str(MAX_PER_PAGE)
 
 		req = urllib2.Request(url)
@@ -65,6 +71,7 @@ class BeerSnob():
 
 		data = json.load(urllib2.urlopen(req))
 
+		# store beers into list
 		self.storeProductIdsFromJson(data)
 
 		pager_data = data['pager']
@@ -95,8 +102,10 @@ class BeerSnob():
 
 			product_id = self.availableBeers[idx]
 
+			# save the beers that were selected already
 			self.selectedBeers.append(product_id)
 
+			# remove beer from list of available beers
 			self.availableBeers.remove(product_id)
 
 			return self.beers[product_id]['name']
@@ -113,7 +122,8 @@ if __name__ == '__main__':
 	while len(module.availableBeers) > 0:
 		beer = module.randomlySelectBeer()
 
-		print "selected " + str(beer)
+		if beer:
+			print "selected " + beer.encode('utf8')
 
 
 
