@@ -15,7 +15,7 @@ class BeerSelection(object):
           <html> \
           <head></head> \
           <body> \
-            <form method="get" action="selectBeer"> \
+            <form method="put" action="selectBeer"> \
               <button type="submit">Select a beer</button> \
             </form>"""
 
@@ -38,7 +38,7 @@ class BeerSelection(object):
 
         if beer:
             self.selectedBeers.append(beer)
-        
+
         return self.generateHtml()
 
 if __name__ == '__main__':

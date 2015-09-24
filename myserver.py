@@ -50,7 +50,8 @@ class BeerSnob():
 
 	def storeProductIdsFromJson(self, data):
 		for product in data['result']:
-			if product['primary_category'] == "Beer":
+			if product['primary_category'] == "Beer" and \
+			   product["inventory_count"] > 0:
 				self.beers[product['id']] = {'name': product['name']}
 
 	
@@ -96,8 +97,6 @@ class BeerSnob():
 
 			self.selectedBeers.append(product_id)
 
-			#print "selected " + self.beers[product_id]['name']
-
 			self.availableBeers.remove(product_id)
 
 			return self.beers[product_id]['name']
@@ -112,7 +111,9 @@ if __name__ == '__main__':
 	module = BeerSnob("beers.json")
 
 	while len(module.availableBeers) > 0:
-		module.randomlySelectBeer()
+		beer = module.randomlySelectBeer()
+
+		print "selected " + str(beer)
 
 
 
